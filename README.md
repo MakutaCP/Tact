@@ -1,1 +1,1 @@
-# Tact
+A small tactics game for a code Louisville project
