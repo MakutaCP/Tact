@@ -1,8 +1,8 @@
 using System;
 
-namespace Tact
+namespace MapModel
 {
-        class Cell
+        public class Cell
         { 
             public int RowNumber { get; set;}
             public int ColumnNumber { get; set; }
@@ -16,7 +16,7 @@ namespace Tact
             }
         }
 
-        class Map 
+        public class Map 
         {
             public int Size { get; set; }
 
