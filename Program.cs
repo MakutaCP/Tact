@@ -14,6 +14,8 @@ namespace Tact
             Cell currentCell = setCurrentCell();
             currentCell.CurrentlyOccupied = true;
 
+            myMap.MarkPossibleNextMoves(currentCell, "Heavy");
+
             printMap(myMap);
 
 
@@ -56,7 +58,7 @@ namespace Tact
                     Console.WriteLine();
                 }
                 //forground color
-                Console.Write("@@@@@@@@@@@@@@@@@@@@");
+                Console.Write("@@@@@@@@@@@@@@@@@@@@          ");
         }
     }
 }
