@@ -11,9 +11,25 @@ namespace Tact
 
             printMap(myMap);
 
+            Cell currentCell = setCurrentCell();
+            currentCell.CurrentlyOccupied = true;
+
+            printMap(myMap);
+
 
             Console.ReadLine();
             
+        }
+
+        private static Cell setCurrentCell()
+        {
+            Console.WriteLine("Enter the starting row number");
+            int currentRow = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the staring column number");
+            int currentColumn = int.Parse(Console.ReadLine());
+
+            return myMap.Grid[currentRow, currentColumn];
         }
 
         private static void printMap(Map myMap)
@@ -39,7 +55,7 @@ namespace Tact
                     }
                     Console.WriteLine();
                 }
-
+                //forground color
                 Console.Write("@@@@@@@@@@@@@@@@@@@@");
         }
     }
