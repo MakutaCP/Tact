@@ -60,9 +60,21 @@ namespace MapModel
                             break;
 
                         case "Scout" :
+                            Grid[currentCell.RowNumber + 3, currentCell.ColumnNumber].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber + 2, currentCell.ColumnNumber + 1].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber + 1, currentCell.ColumnNumber + 2].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber, currentCell.ColumnNumber + 3].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber - 3, currentCell.ColumnNumber].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber - 2, currentCell.ColumnNumber -1].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber - 2].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber, currentCell.ColumnNumber - 3].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber + 2, currentCell.ColumnNumber - 1].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber + 1, currentCell.ColumnNumber - 2].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber - 2, currentCell.ColumnNumber + 1].PossibleNextMoves = true;
+                            Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber + 2].PossibleNextMoves = true;
                             break;
 
-                        case "Normal" :
+                        case "Base" :
                             break;
                 
                         default:

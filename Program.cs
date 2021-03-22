@@ -8,6 +8,8 @@ namespace Tact
         static Map myMap = new Map(10);
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to the Game. Press enter to start.");
+            Console.ReadLine();
 
             printMap(myMap);
 
@@ -18,9 +20,21 @@ namespace Tact
 
             printMap(myMap);
 
-
             Console.ReadLine();
+
+            //if (finish = false) 
+            //{
+                 //Cell nextCell = moveCurrentCell();
+            //} else
+            //{
+                //Console.WriteLine("The End!");
+            //}
+           
+            //Cell currentCell = moveCurrentCell();
             
+            //printMap(myMap);
+
+            //Console.ReadLine();
         }
 
         private static Cell setCurrentCell()
@@ -29,6 +43,17 @@ namespace Tact
             int currentRow = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Enter the staring column number");
+            int currentColumn = int.Parse(Console.ReadLine());
+
+            return myMap.Grid[currentRow, currentColumn];
+        }
+
+        private static Cell moveCurrentCell()
+        {
+            Console.WriteLine("Enter the row number to move to");
+            int currentRow = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the column number to move to");
             int currentColumn = int.Parse(Console.ReadLine());
 
             return myMap.Grid[currentRow, currentColumn];
@@ -44,15 +69,18 @@ namespace Tact
 
                         if(c.CurrentlyOccupied == true)
                         {
-                            Console.Write("O");
-                        }
-                        else if (c.PossibleNextMoves == true)
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                            Console.Write("|-O-|");
+                            Console.ResetColor();
+                            
+                        } else if (c.PossibleNextMoves == true)
                         {
-                            Console.Write("X");
-                        }
-                        else 
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.Write("|-X-|");
+                            Console.ResetColor();
+                        } else 
                         {
-                            Console.Write(".");
+                            Console.Write("|---|");
                         }
                     }
                     Console.WriteLine();
