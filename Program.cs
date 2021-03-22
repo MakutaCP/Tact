@@ -11,41 +11,28 @@ namespace Tact
             Console.WriteLine("Welcome to the Game. Press enter to start.");
             Console.ReadLine();
 
-            printMap(myMap);
+            Cell targetCell = toTargetCell();
 
-            Cell currentCell = setCurrentCell();
-            currentCell.CurrentlyOccupied = true;
-
-            myMap.MarkPossibleNextMoves(currentCell, "Heavy");
+            myMap.SetBaseSpawn(targetCell, "Unit1");
+            targetCell.BaseSpawn = true;
 
             printMap(myMap);
 
-            Console.ReadLine();
 
-            //if (finish = false) 
-            //{
-                 //Cell nextCell = moveCurrentCell();
-            //} else
-            //{
-                //Console.WriteLine("The End!");
-            //}
-           
-            //Cell currentCell = moveCurrentCell();
+            for ( int i = 1; i <= 5; i++)
+            {
+                Console.WriteLine("Turn " + i);
+                Cell currentCell = moveCurrentCell(); 
+                
+                myMap.MarkPossibleNextMoves(currentCell, "Heavy");
+                currentCell.CurrentlyOccupied = true;
+
+                printMap(myMap);
+
+                Console.ReadLine();
+            }
             
-            //printMap(myMap);
 
-            //Console.ReadLine();
-        }
-
-        private static Cell setCurrentCell()
-        {
-            Console.WriteLine("Enter the starting row number");
-            int currentRow = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter the staring column number");
-            int currentColumn = int.Parse(Console.ReadLine());
-
-            return myMap.Grid[currentRow, currentColumn];
         }
 
         private static Cell moveCurrentCell()
@@ -57,6 +44,12 @@ namespace Tact
             int currentColumn = int.Parse(Console.ReadLine());
 
             return myMap.Grid[currentRow, currentColumn];
+        }
+
+        private static Cell toTargetCell()
+        {
+            Console.WriteLine("Here are your targets. You have five turns to destroy them.");
+            return myMap.Grid[5,7];
         }
 
         private static void printMap(Map myMap)
@@ -78,6 +71,11 @@ namespace Tact
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
                             Console.Write("|-X-|");
                             Console.ResetColor();
+                        } else if (c.BaseSpawn == true)
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkRed;
+                            Console.Write("|-T-|");
+                            Console.ResetColor();
                         } else 
                         {
                             Console.Write("|---|");
@@ -85,8 +83,8 @@ namespace Tact
                     }
                     Console.WriteLine();
                 }
-                //forground color
-                Console.Write("@@@@@@@@@@@@@@@@@@@@          ");
+                
+                Console.Write("____________         ");
         }
     }
 }
