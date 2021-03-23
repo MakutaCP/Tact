@@ -30,9 +30,9 @@ namespace MapModel
 
                 Grid = new Cell[Size, Size];
 
-                for (int i = 0; i < Size; i++)
+                for (int i = 1; i < Size; i++)
                 {
-                    for (int j = 0; j < Size; j++)
+                    for (int j = 1; j < Size; j++)
                     {
                         Grid[i,j] = new Cell(i, j);
                     }
@@ -59,9 +59,9 @@ namespace MapModel
             public void MarkPossibleNextMoves( Cell currentCell, string unitType )
             {
                  //clear old possible moves
-                for (int i = 0; i < Size; i++)
+                for (int i = 1; i < Size; i++)
                 {
-                    for (int j = 0; j < Size; j++)
+                    for (int j = 1; j < Size; j++)
                     {
                         Grid[i,j].PossibleNextMoves = false;
                         Grid[i,j].CurrentlyOccupied = false;
@@ -90,12 +90,6 @@ namespace MapModel
                         Grid[currentCell.RowNumber + 1, currentCell.ColumnNumber - 2].PossibleNextMoves = true;
                         Grid[currentCell.RowNumber - 2, currentCell.ColumnNumber + 1].PossibleNextMoves = true;
                         Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber + 2].PossibleNextMoves = true;
-                        break;
-
-                    case "Base" :
-                        break;
-                
-                    default:
                         break;
                 }
             }

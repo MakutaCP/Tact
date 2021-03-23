@@ -8,7 +8,16 @@ namespace Tact
         static Map myMap = new Map(10);
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the Game. Press enter to start.");
+            Start:
+            Console.WriteLine("Welcome to the Game. Type C to begin.");
+            
+            ConsoleKey continueKey = ConsoleKey.C;
+            Console.Write($"Press [{continueKey}] to continue...");
+            while (Console.ReadKey(true).Key != continueKey)
+            {
+                Console.Write($"Please press [{continueKey}] to continue...");
+            } 
+            
             Console.ReadLine();
 
             Cell targetCell = toTargetCell();
@@ -31,12 +40,27 @@ namespace Tact
 
                 Console.ReadLine();
             }
+
+            ConsoleKey exitKey = ConsoleKey.Q;
+            ConsoleKey restartKey = ConsoleKey.E;
+            Console.Write($"Press [{exitKey}] to leave or press [{restartKey}] to play again.");
+            if(Console.ReadKey(true).Key == exitKey)
+            {
+                Environment.Exit(0);
+            } else if (Console.ReadKey(true).Key == restartKey){
+                goto Start;
+            } else
+            {
+                Console.Write($"Press [{exitKey}] to leave or press [{restartKey}] to play again.");
+            }
+
             
 
         }
 
         private static Cell moveCurrentCell()
         {
+            //logic for check of possible move
             Console.WriteLine("Enter the row number to move to");
             int currentRow = int.Parse(Console.ReadLine());
 
@@ -54,9 +78,9 @@ namespace Tact
 
         private static void printMap(Map myMap)
         {
-            for (int i = 0; i < myMap.Size; i++)
+            for (int i = 1; i < myMap.Size; i++)
                 {
-                    for (int j = 0; j < myMap.Size; j++)
+                    for (int j = 1; j < myMap.Size; j++)
                     {
                         Cell c = myMap.Grid[i, j];
 
