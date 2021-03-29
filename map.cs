@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MapModel
 {
@@ -73,7 +74,7 @@ namespace MapModel
                 }
             }
                 
-            public void MarkPossibleNextMoves( Cell currentCell, string unitType )
+            public List<Cell> MarkPossibleNextMoves( Cell currentCell, string unitType )
             {
                  //clear old possible moves
                 for (int i = 1; i < Size; i++)
@@ -88,7 +89,7 @@ namespace MapModel
             
                 switch (unitType)
                 {
-                    case "Heavy" :
+                    case "Heavy" ://add if statment to check for null error
                         Grid[currentCell.RowNumber + 1, currentCell.ColumnNumber].PossibleNextMoves = true;
                         Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber].PossibleNextMoves = true;
                         Grid[currentCell.RowNumber, currentCell.ColumnNumber - 1].PossibleNextMoves = true;
@@ -110,6 +111,19 @@ namespace MapModel
                         Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber + 2].PossibleNextMoves = true;
                         break;
                 }
+                //for iterate over grid look for possible next moves
+                var possibleMoves = new List<Cell>();
+                for (int i = 1; i < Size; i++)
+                {
+                    for (int j = 1; j < Size; j++)
+                    {
+                        if (Grid[i,j].PossibleNextMoves)
+                        {
+                            possibleMoves.Add(Grid[i,j]);
+                        }
+                    }
+                }
+                return possibleMoves;
             }
                 
         }

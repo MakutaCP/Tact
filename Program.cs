@@ -32,11 +32,11 @@ namespace Tact
 
             printMap(myMap);
 
-
+            Cell currentCell = startCell;
             for ( int i = 1; i <= 5; i++)
             {
                 Console.WriteLine("Turn " + i);
-                Cell currentCell = moveCurrentCell();
+                currentCell = moveCurrentCell(currentCell);
                 
                 myMap.MarkPossibleNextMoves(currentCell, "Heavy");
                 currentCell.CurrentlyOccupied = true;
@@ -65,14 +65,20 @@ namespace Tact
         }
 
 
-        private static Cell moveCurrentCell()
+        private static Cell moveCurrentCell(Cell currentCell)
         {
             //logic for check of possible move
+            Moves:
             Console.WriteLine("Enter the row number to move to");
             int currentRow = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Enter the column number to move to");
             int currentColumn = int.Parse(Console.ReadLine());
+            if(myMap.MarkPossibleNextMoves(currentCell, "Heavy").Contains(myMap.Grid[currentRow, currentColumn]) == false)
+            {
+                Console.WriteLine("Location out of range. Please make a move in range.");
+                goto Moves;
+            }
 
             return myMap.Grid[currentRow, currentColumn];
         }
