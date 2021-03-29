@@ -21,9 +21,14 @@ namespace Tact
             Console.ReadLine();
 
             Cell targetCell = toTargetCell();
+            Cell startCell = toStartCell();
 
             myMap.SetBaseSpawn(targetCell, "Unit1");
             targetCell.BaseSpawn = true;
+
+            myMap.SetPlayerSpawn(startCell, "Heavy");
+            myMap.MarkPossibleNextMoves(startCell, "Heavy");
+            startCell.PlayerSpawn = true;
 
             printMap(myMap);
 
@@ -31,10 +36,11 @@ namespace Tact
             for ( int i = 1; i <= 5; i++)
             {
                 Console.WriteLine("Turn " + i);
-                Cell currentCell = moveCurrentCell(); 
+                Cell currentCell = moveCurrentCell();
                 
                 myMap.MarkPossibleNextMoves(currentCell, "Heavy");
                 currentCell.CurrentlyOccupied = true;
+                
 
                 printMap(myMap);
 
@@ -58,6 +64,7 @@ namespace Tact
 
         }
 
+
         private static Cell moveCurrentCell()
         {
             //logic for check of possible move
@@ -76,6 +83,12 @@ namespace Tact
             return myMap.Grid[5,7];
         }
 
+        private static Cell toStartCell()
+        {
+            Console.WriteLine("Here are your units. Move them to destroy your targets");
+            return myMap.Grid[2,3];
+        }
+
         private static void printMap(Map myMap)
         {
             for (int i = 1; i < myMap.Size; i++)
@@ -84,12 +97,16 @@ namespace Tact
                     {
                         Cell c = myMap.Grid[i, j];
 
-                        if(c.CurrentlyOccupied == true)
+                        if (c.PlayerSpawn == true)
                         {
                             Console.BackgroundColor = ConsoleColor.Blue;
                             Console.Write("|-O-|");
                             Console.ResetColor();
-                            
+                        } else if (c.CurrentlyOccupied == true)
+                        {
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                            Console.Write("|-O-|");
+                            Console.ResetColor();
                         } else if (c.PossibleNextMoves == true)
                         {
                             Console.BackgroundColor = ConsoleColor.DarkGreen;

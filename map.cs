@@ -9,6 +9,7 @@ namespace MapModel
             public bool CurrentlyOccupied { get; set; }
             public bool PossibleNextMoves { get; set; }
             public bool BaseSpawn { get; set; }
+            public bool PlayerSpawn { get; set; }
 
         public Cell(int x, int y)
             {
@@ -48,11 +49,27 @@ namespace MapModel
                     break;
 
                     case "Unit2":
+                        Grid[targetCell.RowNumber, targetCell.ColumnNumber].BaseSpawn = true;
                     break;
 
                     case "Unit3":
+                        Grid[targetCell.RowNumber, targetCell.ColumnNumber].BaseSpawn = true;
                     break;
 
+                }
+            }
+
+            public void SetPlayerSpawn( Cell startCell, string UnitType)
+            {
+                switch (UnitType)
+                {
+                    case "Heavy":
+                        Grid[startCell.RowNumber, startCell.ColumnNumber].PlayerSpawn = true;
+                    break;
+
+                    case "Scout":
+                        Grid[startCell.RowNumber, startCell.ColumnNumber].PlayerSpawn = true;
+                    break;
                 }
             }
                 
@@ -65,6 +82,7 @@ namespace MapModel
                     {
                         Grid[i,j].PossibleNextMoves = false;
                         Grid[i,j].CurrentlyOccupied = false;
+                        Grid[i,j].PlayerSpawn = false;
                     }
                 }
             
