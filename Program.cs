@@ -20,38 +20,72 @@ namespace Tact
             
             Console.ReadLine();
 
-            Cell targetCell = toTargetCell();
-            Cell startCell = toStartCell();
+            Cell targetCell1 = toTargetCell1();
+            Cell targetCell2 = toTargetCell2();
+            Cell targetCell3 = toTargetCell3();
+            Cell targetCell4 = toTargetCell4();
+            Cell targetCell5 = toTargetCell5();
 
-            myMap.SetBaseSpawn(targetCell, "Unit1");
-            targetCell.BaseSpawn = true;
+            Cell startCellH = toStartCellH();
+            Cell startCellS = toStartCellS();
 
-            myMap.SetPlayerSpawn(startCell, "Heavy");
-            myMap.MarkPossibleNextMoves(startCell, "Heavy");
-            startCell.PlayerSpawn = true;
+            myMap.SetBaseSpawn(targetCell1, "Unit1");
+            myMap.SetBaseSpawn(targetCell2, "Unit2");
+            myMap.SetBaseSpawn(targetCell3, "Unit3");
+            myMap.SetBaseSpawn(targetCell4, "Unit4");
+            myMap.SetBaseSpawn(targetCell5, "Unit5");
+            targetCell1.BaseSpawn = true;
+            targetCell2.BaseSpawn = true;
+            targetCell3.BaseSpawn = true;
+            targetCell4.BaseSpawn = true;
+            targetCell5.BaseSpawn = true;
+
+            myMap.SetPlayerSpawn(startCellH, "Heavy");
+            myMap.SetPlayerSpawn(startCellS, "Scout");
+            myMap.MarkPossibleNextMoves(startCellH, "Heavy");
+            myMap.MarkPossibleNextMoves(startCellS, "Scout");
+            startCellH.PlayerSpawnH = true;
+            startCellS.PlayerSpawnS = true;
 
             printMap(myMap);
 
-            Cell currentCell = startCell;
+            Cell currentCellH = startCellH;
+            Cell currentCellS = startCellS;
             for ( int i = 1; i <= 5; i++)
-            {
-                Console.WriteLine("Turn " + i);
-                currentCell = moveCurrentCell(currentCell);
-                
-                myMap.MarkPossibleNextMoves(currentCell, "Heavy");
-                currentCell.CurrentlyOccupied = true;
+            {   
 
-                if (currentCell == targetCell){
-                    targetCell.BaseSpawn = false;
+                Console.WriteLine("Turn " + i);
+                currentCellS = moveCurrentCellS(currentCellS);
+                currentCellH = moveCurrentCellH(currentCellH);
+
+                myMap.MarkPossibleNextMoves(currentCellS, "Scout");
+                currentCellS.CurrentlyOccupiedS = true;
+                myMap.MarkPossibleNextMoves(currentCellH, "Heavy");
+                currentCellH.CurrentlyOccupiedH = true;
+                
+                if (currentCellH == targetCell1 || currentCellS == targetCell1){
+                    targetCell1.BaseSpawn = false;
+                }
+                if (currentCellH == targetCell2 || currentCellS == targetCell2){
+                    targetCell2.BaseSpawn = false;
+                }
+                if (currentCellH == targetCell3 || currentCellS == targetCell3){
+                    targetCell3.BaseSpawn = false;
+                }
+                 if (currentCellH == targetCell4 || currentCellS == targetCell4){
+                    targetCell4.BaseSpawn = false;
+                }
+                 if (currentCellH == targetCell5 || currentCellS == targetCell5){
+                    targetCell5.BaseSpawn = false;
                 }
                 
 
                 printMap(myMap);
 
-                if (targetCell.BaseSpawn == false){
+                if (targetCell1.BaseSpawn == false && targetCell2.BaseSpawn == false && targetCell3.BaseSpawn == false && targetCell4.BaseSpawn == false && targetCell5.BaseSpawn == false){
                     ConsoleKey exitKeyV = ConsoleKey.Q;
                     ConsoleKey restartKeyV = ConsoleKey.E;
-                    Console.Write("All targets down. Good job commander.");
+                    Console.Write("All targets down. Good job commander.      ");
                     Console.Write($"Press [{exitKeyV}] to leave or press [{restartKeyV}] to play again.");
                     if(Console.ReadKey(true).Key == exitKeyV)
                     {
@@ -70,7 +104,7 @@ namespace Tact
 
         ConsoleKey exitKey = ConsoleKey.Q;
         ConsoleKey restartKey = ConsoleKey.E;
-        Console.Write("We ran out of time. We lost.");
+        Console.Write("We ran out of time. We lost.     ");
         Console.Write($"Press [{exitKey}] to leave or press [{restartKey}] to play again.");
         if(Console.ReadKey(true).Key == exitKey)
         {
@@ -84,35 +118,79 @@ namespace Tact
         }
 
 
-        private static Cell moveCurrentCell(Cell currentCell)
+        private static Cell moveCurrentCellH(Cell currentCellH)
         {
             //logic for check of possible move
-            Moves:
+            MovesH:
+            Console.WriteLine("Time to move the heavy unit.");
             Console.WriteLine("Enter the row number to move to");
             int currentRow = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Enter the column number to move to");
             int currentColumn = int.Parse(Console.ReadLine());
-            if(myMap.MarkPossibleNextMoves(currentCell, "Heavy").Contains(myMap.Grid[currentRow, currentColumn]) == false)
+            if(myMap.MarkPossibleNextMoves(currentCellH, "Heavy").Contains(myMap.Grid[currentRow, currentColumn]) == false)
             {
                 Console.WriteLine("Location out of range. Please make a move in range.");
-                goto Moves;
+                goto MovesH;
             }
 
             return myMap.Grid[currentRow, currentColumn];
         }
 
-        private static Cell toTargetCell()
+        private static Cell moveCurrentCellS(Cell currentCellS)
         {
-            Console.WriteLine("Here are your targets. You have five turns to destroy them.");
+            //logic for check of possible move
+            MovesS:
+            Console.WriteLine("Time to move the Scout.");
+            Console.WriteLine("Enter the row number to move to");
+            int currentRow = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the column number to move to");
+            int currentColumn = int.Parse(Console.ReadLine());
+            if(myMap.MarkPossibleNextMoves(currentCellS, "Scout").Contains(myMap.Grid[currentRow, currentColumn]) == false)
+            {
+                Console.WriteLine("Location out of range. Please make a move in range.");
+                goto MovesS;
+            }
+
+            return myMap.Grid[currentRow, currentColumn];
+        }
+
+        private static Cell toTargetCell1()
+        {
+            return myMap.Grid[4,2];
+        }
+        
+        private static Cell toTargetCell2()
+        {
+            return myMap.Grid[4,5];
+        }
+
+        private static Cell toTargetCell3()
+        {
+            return myMap.Grid[3,5];
+        }
+
+        private static Cell toTargetCell4()
+        {
             return myMap.Grid[5,7];
         }
 
-        private static Cell toStartCell()
+        private static Cell toTargetCell5()
         {
-            Console.WriteLine("Here are your units. Move them to destroy your targets");
-            return myMap.Grid[5,9];
+            return myMap.Grid[7,7];
         }
+
+        private static Cell toStartCellH()
+        {
+            return myMap.Grid[2,2];
+        }
+
+        private static Cell toStartCellS()
+        {
+            return myMap.Grid[9,9];
+        }
+
 
         private static void printMap(Map myMap)
         {
@@ -122,25 +200,40 @@ namespace Tact
                     {
                         Cell c = myMap.Grid[i, j];
 
-                        if (c.PlayerSpawn == true)
+                        if (c.PlayerSpawnH == true)
                         {
                             Console.BackgroundColor = ConsoleColor.Blue;
-                            Console.Write("|-O-|");
+                            Console.Write("|-H-|");
                             Console.ResetColor();
-                        } else if (c.CurrentlyOccupied == true)
+                        } else if (c.PlayerSpawnS == true) 
                         {
                             Console.BackgroundColor = ConsoleColor.Blue;
-                            Console.Write("|-O-|");
+                            Console.Write("|-S-|");
+                            Console.ResetColor();
+                        } else if (c.CurrentlyOccupiedH == true)
+                        {
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                            Console.Write("|-H-|");
+                            Console.ResetColor();
+                        } else if (c.CurrentlyOccupiedS == true)
+                        {
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                            Console.Write("|-S-|");
                             Console.ResetColor();
                         } else if (c.BaseSpawn == true)
                         {
                             Console.BackgroundColor = ConsoleColor.DarkRed;
                             Console.Write("|-T-|");
                             Console.ResetColor();
-                        } else if (c.PossibleNextMoves == true)
+                        } else if (c.PossibleNextMovesH == true)
                         {
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
-                            Console.Write("|-X-|");
+                            Console.Write("|-H-|");
+                            Console.ResetColor();
+                        } else if (c.PossibleNextMovesS== true)
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.Write("|-S-|");
                             Console.ResetColor();
                         } else 
                         {
