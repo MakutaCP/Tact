@@ -90,10 +90,18 @@ namespace MapModel
                 switch (unitType)
                 {
                     case "Heavy" ://add if statment to check for null error
-                        Grid[currentCell.RowNumber + 1, currentCell.ColumnNumber].PossibleNextMoves = true;
-                        Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber].PossibleNextMoves = true;
-                        Grid[currentCell.RowNumber, currentCell.ColumnNumber - 1].PossibleNextMoves = true;
-                        Grid[currentCell.RowNumber, currentCell.ColumnNumber + 1].PossibleNextMoves = true;
+                        if(currentCell.RowNumber != 9){
+                            Grid[currentCell.RowNumber + 1, currentCell.ColumnNumber].PossibleNextMoves = true;
+                        }
+                        if(currentCell.RowNumber != 1){
+                            Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber].PossibleNextMoves = true;
+                        }
+                        if(currentCell.ColumnNumber != 1){
+                            Grid[currentCell.RowNumber, currentCell.ColumnNumber - 1].PossibleNextMoves = true;
+                        }
+                        if(currentCell.ColumnNumber != 9){
+                            Grid[currentCell.RowNumber, currentCell.ColumnNumber + 1].PossibleNextMoves = true;
+                        }
                         break;
 
                     case "Scout" :

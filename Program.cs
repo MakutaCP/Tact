@@ -40,28 +40,47 @@ namespace Tact
                 
                 myMap.MarkPossibleNextMoves(currentCell, "Heavy");
                 currentCell.CurrentlyOccupied = true;
+
+                if (currentCell == targetCell){
+                    targetCell.BaseSpawn = false;
+                }
                 
 
                 printMap(myMap);
 
-                Console.ReadLine();
+                if (targetCell.BaseSpawn == false){
+                    ConsoleKey exitKeyV = ConsoleKey.Q;
+                    ConsoleKey restartKeyV = ConsoleKey.E;
+                    Console.Write("All targets down. Good job commander.");
+                    Console.Write($"Press [{exitKeyV}] to leave or press [{restartKeyV}] to play again.");
+                    if(Console.ReadKey(true).Key == exitKeyV)
+                    {
+                        Environment.Exit(0);
+                    } else if (Console.ReadKey(true).Key == restartKeyV){
+                        goto Start;
+                    } else
+                    {
+                        Console.Write($"Press [{exitKeyV}] to leave or press [{restartKeyV}] to play again.");
+                    }
+                    
+                }
+
+            Console.ReadLine();
             }
 
-            ConsoleKey exitKey = ConsoleKey.Q;
-            ConsoleKey restartKey = ConsoleKey.E;
+        ConsoleKey exitKey = ConsoleKey.Q;
+        ConsoleKey restartKey = ConsoleKey.E;
+        Console.Write("We ran out of time. We lost.");
+        Console.Write($"Press [{exitKey}] to leave or press [{restartKey}] to play again.");
+        if(Console.ReadKey(true).Key == exitKey)
+        {
+            Environment.Exit(0);
+        } else if (Console.ReadKey(true).Key == restartKey){
+            goto Start;
+        } else
+        {
             Console.Write($"Press [{exitKey}] to leave or press [{restartKey}] to play again.");
-            if(Console.ReadKey(true).Key == exitKey)
-            {
-                Environment.Exit(0);
-            } else if (Console.ReadKey(true).Key == restartKey){
-                goto Start;
-            } else
-            {
-                Console.Write($"Press [{exitKey}] to leave or press [{restartKey}] to play again.");
-            }
-
-            
-
+        }
         }
 
 
@@ -92,7 +111,7 @@ namespace Tact
         private static Cell toStartCell()
         {
             Console.WriteLine("Here are your units. Move them to destroy your targets");
-            return myMap.Grid[2,3];
+            return myMap.Grid[5,9];
         }
 
         private static void printMap(Map myMap)
@@ -113,15 +132,15 @@ namespace Tact
                             Console.BackgroundColor = ConsoleColor.Blue;
                             Console.Write("|-O-|");
                             Console.ResetColor();
-                        } else if (c.PossibleNextMoves == true)
-                        {
-                            Console.BackgroundColor = ConsoleColor.DarkGreen;
-                            Console.Write("|-X-|");
-                            Console.ResetColor();
                         } else if (c.BaseSpawn == true)
                         {
                             Console.BackgroundColor = ConsoleColor.DarkRed;
                             Console.Write("|-T-|");
+                            Console.ResetColor();
+                        } else if (c.PossibleNextMoves == true)
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.Write("|-X-|");
                             Console.ResetColor();
                         } else 
                         {
