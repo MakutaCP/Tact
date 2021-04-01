@@ -5,6 +5,7 @@ namespace MapModel
 {
         public class Cell
         { 
+            // All references
             public int RowNumber { get; set;}
             public int ColumnNumber { get; set; }
             public bool CurrentlyOccupiedH { get; set; }
@@ -30,7 +31,7 @@ namespace MapModel
 
             public Map (int s)
             {
-                // Size of board is s. Only makes squares for now.
+                // Set size of board and fill with cells
                 Size = s;
 
                 Grid = new Cell[Size, Size];
@@ -46,6 +47,7 @@ namespace MapModel
 
             public void SetBaseSpawn( Cell targetCell, string unitNum)
             {
+                // Old target interface 
                 switch (unitNum)
                 {
                     case "Unit1":
@@ -60,11 +62,19 @@ namespace MapModel
                         Grid[targetCell.RowNumber, targetCell.ColumnNumber].BaseSpawn = true;
                     break;
 
+                    case "Unit4":
+                        Grid[targetCell.RowNumber, targetCell.ColumnNumber].BaseSpawn = true;
+                    break;
+
+                    case "Unit5":
+                        Grid[targetCell.RowNumber, targetCell.ColumnNumber].BaseSpawn = true;
+                    break;
                 }
             }
 
             public void SetPlayerSpawn( Cell startCell, string UnitType)
             {
+                // Unit spawn interface
                 switch (UnitType)
                 {
                     case "Heavy":
@@ -81,7 +91,7 @@ namespace MapModel
             {
                 switch (unitType)
                 {
-                    case "Heavy" ://add if statment to check for null error
+                    case "Heavy" :// Check for possible next move. Send those to list for return to move entry
 
                         for (int i = 1; i < Size; i++)
                         {
@@ -106,7 +116,19 @@ namespace MapModel
                         if(currentCell.ColumnNumber != 9){
                             Grid[currentCell.RowNumber, currentCell.ColumnNumber + 1].PossibleNextMovesH = true;
                         }
-                        break;
+
+                        var possibleMovesH = new List<Cell>();
+                        for (int i = 1; i < Size; i++)
+                        {
+                            for (int j = 1; j < Size; j++)
+                            {
+                                if (Grid[i,j].PossibleNextMovesH)
+                                {
+                                    possibleMovesH.Add(Grid[i,j]);
+                                }
+                            }
+                        }
+                        return possibleMovesH;
 
                     case "Scout" :
 
@@ -144,21 +166,24 @@ namespace MapModel
                         if(currentCell.RowNumber !=1 && currentCell.ColumnNumber != 9){
                         Grid[currentCell.RowNumber - 1, currentCell.ColumnNumber + 1].PossibleNextMovesS = true;
                         }
-                        break;
-                }
-                //for iterate over grid look for possible next moves
-                var possibleMoves = new List<Cell>();
-                for (int i = 1; i < Size; i++)
-                {
-                    for (int j = 1; j < Size; j++)
-                    {
-                        if (Grid[i,j].PossibleNextMovesH || Grid[i,j].PossibleNextMovesS)
+
+                        var possibleMovesS = new List<Cell>();
+                        for (int i = 1; i < Size; i++)
                         {
-                            possibleMoves.Add(Grid[i,j]);
+                            for (int j = 1; j < Size; j++)
+                            {
+                                if (Grid[i,j].PossibleNextMovesS)
+                                {
+                                    possibleMovesS.Add(Grid[i,j]);
+                                }
+                            }
                         }
-                    }
+                        return possibleMovesS;
                 }
-                return possibleMoves;
+            // empty return to stop error
+            var empty = new List<Cell>();
+            return empty;
+           
             }
                 
         }

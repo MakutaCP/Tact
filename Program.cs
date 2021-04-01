@@ -20,15 +20,16 @@ namespace Tact
             
             Console.ReadLine();
 
+            // set cells
             Cell targetCell1 = toTargetCell1();
             Cell targetCell2 = toTargetCell2();
             Cell targetCell3 = toTargetCell3();
             Cell targetCell4 = toTargetCell4();
             Cell targetCell5 = toTargetCell5();
-
             Cell startCellH = toStartCellH();
             Cell startCellS = toStartCellS();
 
+            // spawn targets
             myMap.SetBaseSpawn(targetCell1, "Unit1");
             myMap.SetBaseSpawn(targetCell2, "Unit2");
             myMap.SetBaseSpawn(targetCell3, "Unit3");
@@ -40,6 +41,7 @@ namespace Tact
             targetCell4.BaseSpawn = true;
             targetCell5.BaseSpawn = true;
 
+            // spawn player units
             myMap.SetPlayerSpawn(startCellH, "Heavy");
             myMap.SetPlayerSpawn(startCellS, "Scout");
             myMap.MarkPossibleNextMoves(startCellH, "Heavy");
@@ -51,18 +53,22 @@ namespace Tact
 
             Cell currentCellH = startCellH;
             Cell currentCellS = startCellS;
+            //main loop
             for ( int i = 1; i <= 5; i++)
             {   
 
                 Console.WriteLine("Turn " + i);
+                // independent move calls
                 currentCellS = moveCurrentCellS(currentCellS);
                 currentCellH = moveCurrentCellH(currentCellH);
 
+                // mark new moves
                 myMap.MarkPossibleNextMoves(currentCellS, "Scout");
                 currentCellS.CurrentlyOccupiedS = true;
                 myMap.MarkPossibleNextMoves(currentCellH, "Heavy");
                 currentCellH.CurrentlyOccupiedH = true;
-                
+
+                // target despawn
                 if (currentCellH == targetCell1 || currentCellS == targetCell1){
                     targetCell1.BaseSpawn = false;
                 }
@@ -82,6 +88,7 @@ namespace Tact
 
                 printMap(myMap);
 
+                // victory message
                 if (targetCell1.BaseSpawn == false && targetCell2.BaseSpawn == false && targetCell3.BaseSpawn == false && targetCell4.BaseSpawn == false && targetCell5.BaseSpawn == false){
                     ConsoleKey exitKeyV = ConsoleKey.Q;
                     ConsoleKey restartKeyV = ConsoleKey.E;
@@ -102,6 +109,7 @@ namespace Tact
             Console.ReadLine();
             }
 
+        // defeat message
         ConsoleKey exitKey = ConsoleKey.Q;
         ConsoleKey restartKey = ConsoleKey.E;
         Console.Write("We ran out of time. We lost.     ");
@@ -120,7 +128,7 @@ namespace Tact
 
         private static Cell moveCurrentCellH(Cell currentCellH)
         {
-            //logic for check of possible move
+            // Heavy unit move interface
             MovesH:
             Console.WriteLine("Time to move the heavy unit.");
             Console.WriteLine("Enter the row number to move to");
@@ -139,7 +147,7 @@ namespace Tact
 
         private static Cell moveCurrentCellS(Cell currentCellS)
         {
-            //logic for check of possible move
+            // Scout unit move interface
             MovesS:
             Console.WriteLine("Time to move the Scout.");
             Console.WriteLine("Enter the row number to move to");
@@ -155,6 +163,8 @@ namespace Tact
 
             return myMap.Grid[currentRow, currentColumn];
         }
+
+        // Spawn location reference
 
         private static Cell toTargetCell1()
         {
@@ -192,6 +202,8 @@ namespace Tact
         }
 
 
+
+        // Map draw function
         private static void printMap(Map myMap)
         {
             for (int i = 1; i < myMap.Size; i++)
